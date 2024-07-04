@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail Auta</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1 id="carName"></h1>
+        <img id="carImage" src="" alt="">
+        <div>
+            <label for="datePicker">Vyberte datum:</label>
+            <input type="date" id="datePicker" onchange="updateCarDetails()">
+        </div>
+        <p><strong>Značka:</strong> <span id="carBrand"></span></p>
+        <p><strong>Najaté kilometry:</strong> <span id="carMileage"></span></p>
+        <p><strong>Co se na autě opravovalo:</strong> <span id="carRepairs"></span></p>
+
+        <h2>Upravit údaje</h2>
+        <form id="editForm" onsubmit="saveCarDetails(event)">
+            <div>
+                <label for="newMileage">Najaté kilometry:</label>
+                <input type="number" id="newMileage" required>
+            </div>
+            <div>
+                <label for="newRepairs">Opravy:</label>
+                <select id="commonRepairs">
+                    <option value="">Vyberte běžnou úpravu...</option>
+                    <option value="Výmena oleje">Výmena oleje</option>
+                    <option value="Výmena pneumatik">Výmena pneumatik</option>
+                    <option value="Kontrola brzd">Kontrola brzd</option>
+                    <option value="Výmena filtrů">Výmena filtrů</option>
+                    <!-- Přidejte další běžné úpravy podle potřeby -->
+                </select>
+                <textarea id="newRepairs" placeholder="Nebo napište vlastní úpravu..." ></textarea>
+            </div>
+            <button type="submit">Uložit</button>
+        </form>
+
+        <button onclick="goBack()">Zpět</button>
+    </div>
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    window.history.back();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
