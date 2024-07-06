@@ -3,19 +3,20 @@ const cars = [
         name: "Škoda Octavia",
         image: "images/skoda-octavia.jpg",
         brand: "Škoda",
-        
+        history: {}
     },
     {
         name: "Volkswagen Golf",
         image: "images/vw-golf.jpg",
         brand: "Volkswagen",
+        history: {}
     },
     {
         name: "BMW 3 Series",
         image: "images/bmw-3-series.jpg",
         brand: "BMW",
-    },
-    // Přidejte další auta podle potřeby
+        history: {}
+    }
 ];
 
 function displayCars(carList) {
@@ -50,10 +51,15 @@ function loadCarDetail() {
         document.getElementById('carName').innerText = car.name;
         document.getElementById('carImage').src = car.image;
         document.getElementById('carBrand').innerText = car.brand;
-        // Nastavíme datum picker na poslední datum, pro které máme data
+        // Set date picker to the latest date for which we have data
         const datePicker = document.getElementById('datePicker');
-        datePicker.max = Object.keys(car.history).sort().reverse()[0];
-        datePicker.value = datePicker.max;
+        datePicker.max = new Date().toISOString().split("T")[0];
+        const availableDates = Object.keys(car.history);
+        if (availableDates.length > 0) {
+            datePicker.value = availableDates.sort().reverse()[0];
+        } else {
+            datePicker.value = datePicker.max;
+        }
         updateCarDetails();
     }
 }
@@ -66,8 +72,8 @@ function updateCarDetails() {
         document.getElementById('carMileage').innerText = carDetails.mileage + " km";
         document.getElementById('carRepairs').innerText = carDetails.repairs;
         document.getElementById('newMileage').value = carDetails.mileage;
-        document.getElementById('commonRepairs').value = ''; // Resetujeme výběr běžné opravy
-        document.getElementById('newRepairs').value = ''; // Resetujeme vlastní opravu
+        document.getElementById('commonRepairs').value = ''; // Reset common repair selection
+        document.getElementById('newRepairs').value = ''; // Reset custom repair
     } else {
         document.getElementById('carMileage').innerText = "N/A";
         document.getElementById('carRepairs').innerText = "N/A";
@@ -84,7 +90,6 @@ function saveCarDetails(event) {
     const newMileage = document.getElementById('newMileage').value;
     let newRepairs = '';
 
-    // Zkontrolujeme, jestli byla vybrána běžná oprava, nebo byla zapsána vlastní
     const commonRepairs = document.getElementById('commonRepairs').value;
     if (commonRepairs) {
         newRepairs = commonRepairs;
@@ -106,12 +111,12 @@ function goBack() {
     window.history.back();
 }
 
-// Načtení seznamu aut při načtení stránky index.html
+// Load car list on index.html
 if (document.getElementById('carList')) {
     displayCars(cars);
 }
 
-// Načtení detailu auta při načtení stránky car-detail.html
+// Load car detail on car-detail.html
 if (document.getElementById('carName')) {
     loadCarDetail();
 }
